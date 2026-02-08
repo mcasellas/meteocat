@@ -36,7 +36,7 @@
   "options": {
     "step":{
       "init": {
-        "description": "Configureu la clau API, els límits de l'API, regenereu els fitxers d'assets o actualitzeu les coordenades.",
+        "description": "Configureu la clau API, els límits de l'API, regenereu els fitxers d'assets, actualitzeu coordenades o forceu l'actualització de dades.",
         "title": "Opcions de configuració",
         "data": {
           "option": "Opcions"

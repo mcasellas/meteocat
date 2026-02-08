@@ -36,7 +36,7 @@
   "options": {
     "step": {
       "init": {
-        "description": "Configura la clave API, los límites de la API, regenera los archivos de 'assets' o actualiza las coordenadas.",
+        "description": "Configura la clave API, los límites de la API, regenera los archivos de 'assets', actualiza coordenadas o fuerza la actualización de datos.",
         "title": "Opciones de configuración",
         "data": {
           "option": "Opciones"
