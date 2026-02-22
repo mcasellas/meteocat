@@ -551,189 +551,208 @@ async def async_setup_entry(hass, entry, async_add_entities: AddEntitiesCallback
     moon_file_coordinator = entry_data.get("moon_file_coordinator")
 
     # Sensores generales
-    async_add_entities(
-        MeteocatSensor(sensor_coordinator, description, entry_data)
-        for description in SENSOR_TYPES
-        if description.key in {
-            WIND_SPEED,
-            WIND_DIRECTION,
-            WIND_DIRECTION_CARDINAL,
-            TEMPERATURE,
-            HUMIDITY,
-            PRESSURE,
-            PRECIPITATION,
-            PRECIPITATION_ACCUMULATED,
-            SOLAR_GLOBAL_IRRADIANCE,
-            MAX_TEMPERATURE,
-            MIN_TEMPERATURE,
-            FEELS_LIKE,
-            WIND_GUST,
-            STATION_TIMESTAMP,
-        }
-    )
+    if sensor_coordinator:
+        async_add_entities(
+            MeteocatSensor(sensor_coordinator, description, entry_data)
+            for description in SENSOR_TYPES
+            if description.key in {
+                WIND_SPEED,
+                WIND_DIRECTION,
+                WIND_DIRECTION_CARDINAL,
+                TEMPERATURE,
+                HUMIDITY,
+                PRESSURE,
+                PRECIPITATION,
+                PRECIPITATION_ACCUMULATED,
+                SOLAR_GLOBAL_IRRADIANCE,
+                MAX_TEMPERATURE,
+                MIN_TEMPERATURE,
+                FEELS_LIKE,
+                WIND_GUST,
+                STATION_TIMESTAMP,
+            }
+        )
 
     # Sensores estáticos
-    async_add_entities(
-        MeteocatStaticSensor(static_sensor_coordinator, description, entry_data)
-        for description in SENSOR_TYPES
-        if description.key in {TOWN_NAME, TOWN_ID, STATION_NAME, STATION_ID, REGION_NAME, REGION_ID}
-    )
+    if static_sensor_coordinator:
+        async_add_entities(
+            MeteocatStaticSensor(static_sensor_coordinator, description, entry_data)
+            for description in SENSOR_TYPES
+            if description.key in {TOWN_NAME, TOWN_ID, STATION_NAME, STATION_ID, REGION_NAME, REGION_ID}
+        )
 
     # Sensor UVI
-    async_add_entities(
-        MeteocatUviSensor(uvi_file_coordinator, description, entry_data)
-        for description in SENSOR_TYPES
-        if description.key == UV_INDEX
-    )
+    if uvi_file_coordinator:
+        async_add_entities(
+            MeteocatUviSensor(uvi_file_coordinator, description, entry_data)
+            for description in SENSOR_TYPES
+            if description.key == UV_INDEX
+        )
 
     # Sensor CONDITION para estado del cielo
-    async_add_entities(
-        MeteocatConditionSensor(condition_coordinator, description, entry_data)
-        for description in SENSOR_TYPES
-        if description.key == CONDITION
-    )
+    if condition_coordinator:
+        async_add_entities(
+            MeteocatConditionSensor(condition_coordinator, description, entry_data)
+            for description in SENSOR_TYPES
+            if description.key == CONDITION
+        )
 
     # Sensores temperatura previsión
-    async_add_entities(
-        MeteocatTempForecast(temp_forecast_coordinator, description, entry_data)
-        for description in SENSOR_TYPES
-        if description.key in {MAX_TEMPERATURE_FORECAST, MIN_TEMPERATURE_FORECAST}
-    )
+    if temp_forecast_coordinator:
+        async_add_entities(
+            MeteocatTempForecast(temp_forecast_coordinator, description, entry_data)
+            for description in SENSOR_TYPES
+            if description.key in {MAX_TEMPERATURE_FORECAST, MIN_TEMPERATURE_FORECAST}
+        )
 
     # Sensor precipitación probabilidad
-    async_add_entities(
-        MeteocatPrecipitationProbabilitySensor(daily_forecast_coordinator, description, entry_data)
-        for description in SENSOR_TYPES
-        if description.key == PRECIPITATION_PROBABILITY
-    )
+    if daily_forecast_coordinator:
+        async_add_entities(
+            MeteocatPrecipitationProbabilitySensor(daily_forecast_coordinator, description, entry_data)
+            for description in SENSOR_TYPES
+            if description.key == PRECIPITATION_PROBABILITY
+        )
 
     # Sensores de estado de los archivos de previsión horaria
-    async_add_entities(
-        MeteocatHourlyForecastStatusSensor(entity_coordinator, description, entry_data)
-        for description in SENSOR_TYPES
-        if description.key == HOURLY_FORECAST_FILE_STATUS
-    )
+    if entity_coordinator:
+        async_add_entities(
+            MeteocatHourlyForecastStatusSensor(entity_coordinator, description, entry_data)
+            for description in SENSOR_TYPES
+            if description.key == HOURLY_FORECAST_FILE_STATUS
+        )
 
-    # Sensores de estado de los archivos de previsión diaria
-    async_add_entities(
-        MeteocatDailyForecastStatusSensor(entity_coordinator, description, entry_data)
-        for description in SENSOR_TYPES
-        if description.key == DAILY_FORECAST_FILE_STATUS
-    )
+        # Sensores de estado de los archivos de previsión diaria
+        async_add_entities(
+            MeteocatDailyForecastStatusSensor(entity_coordinator, description, entry_data)
+            for description in SENSOR_TYPES
+            if description.key == DAILY_FORECAST_FILE_STATUS
+        )
 
     # Sensores de estado de los archivos de uvi
-    async_add_entities(
-        MeteocatUviStatusSensor(uvi_coordinator, description, entry_data)
-        for description in SENSOR_TYPES
-        if description.key == UVI_FILE_STATUS
-    )
+    if uvi_coordinator:
+        async_add_entities(
+            MeteocatUviStatusSensor(uvi_coordinator, description, entry_data)
+            for description in SENSOR_TYPES
+            if description.key == UVI_FILE_STATUS
+        )
 
     # Sensores de estado de los archivos de datos de la estación
-    async_add_entities(
-        MeteocatStationDataStatusSensor(sensor_file_coordinator, description, entry_data)
-        for description in SENSOR_TYPES
-        if description.key == STATION_DATA_FILE_STATUS
-    )
+    if sensor_file_coordinator:
+        async_add_entities(
+            MeteocatStationDataStatusSensor(sensor_file_coordinator, description, entry_data)
+            for description in SENSOR_TYPES
+            if description.key == STATION_DATA_FILE_STATUS
+        )
 
     # Sensores de alertas
-    async_add_entities(
-        MeteocatAlertStatusSensor(alerts_coordinator, description, entry_data)
-        for description in SENSOR_TYPES
-        if description.key == ALERT_FILE_STATUS
-    )
+    if alerts_coordinator:
+        async_add_entities(
+            MeteocatAlertStatusSensor(alerts_coordinator, description, entry_data)
+            for description in SENSOR_TYPES
+            if description.key == ALERT_FILE_STATUS
+        )
 
     # Sensores de alertas para la comarca
-    async_add_entities(
-        MeteocatAlertRegionSensor(alerts_region_coordinator, description, entry_data)
-        for description in SENSOR_TYPES
-        if description.key == ALERTS
-    )
+    if alerts_region_coordinator:
+        async_add_entities(
+            MeteocatAlertRegionSensor(alerts_region_coordinator, description, entry_data)
+            for description in SENSOR_TYPES
+            if description.key == ALERTS
+        )
 
-    # Sensores de alertas para cada meteor
-    async_add_entities(
-        MeteocatAlertMeteorSensor(alerts_region_coordinator, description, entry_data)
-        for description in SENSOR_TYPES
-        if description.key in {
-            ALERT_WIND,
-            ALERT_RAIN_INTENSITY,
-            ALERT_RAIN,
-            ALERT_SEA,
-            ALERT_COLD,
-            ALERT_WARM,
-            ALERT_WARM_NIGHT,
-            ALERT_SNOW,
-        }
-    )
+        # Sensores de alertas para cada meteor
+        async_add_entities(
+            MeteocatAlertMeteorSensor(alerts_region_coordinator, description, entry_data)
+            for description in SENSOR_TYPES
+            if description.key in {
+                ALERT_WIND,
+                ALERT_RAIN_INTENSITY,
+                ALERT_RAIN,
+                ALERT_SEA,
+                ALERT_COLD,
+                ALERT_WARM,
+                ALERT_WARM_NIGHT,
+                ALERT_SNOW,
+            }
+        )
 
     # Sensores de estado de cuotas
-    async_add_entities(
-        MeteocatQuotaStatusSensor(quotes_coordinator, description, entry_data)
-        for description in SENSOR_TYPES
-        if description.key == QUOTA_FILE_STATUS
-    )
+    if quotes_coordinator:
+        async_add_entities(
+            MeteocatQuotaStatusSensor(quotes_coordinator, description, entry_data)
+            for description in SENSOR_TYPES
+            if description.key == QUOTA_FILE_STATUS
+        )
 
     # Sensores cuotas
-    async_add_entities(
-        MeteocatQuotaSensor(quotes_file_coordinator, description, entry_data)
-        for description in SENSOR_TYPES
-        if description.key in {QUOTA_XDDE, QUOTA_PREDICCIO, QUOTA_BASIC, QUOTA_XEMA, QUOTA_QUERIES}
-    )
+    if quotes_file_coordinator:
+        async_add_entities(
+            MeteocatQuotaSensor(quotes_file_coordinator, description, entry_data)
+            for description in SENSOR_TYPES
+            if description.key in {QUOTA_XDDE, QUOTA_PREDICCIO, QUOTA_BASIC, QUOTA_XEMA, QUOTA_QUERIES}
+        )
 
     # Sensores de estado de rayos
-    async_add_entities(
-        MeteocatLightningStatusSensor(lightning_coordinator, description, entry_data)
-        for description in SENSOR_TYPES
-        if description.key == LIGHTNING_FILE_STATUS
-    )
+    if lightning_coordinator:
+        async_add_entities(
+            MeteocatLightningStatusSensor(lightning_coordinator, description, entry_data)
+            for description in SENSOR_TYPES
+            if description.key == LIGHTNING_FILE_STATUS
+        )
 
     # Sensores de rayos en comarca y municipio
-    async_add_entities(
-        MeteocatLightningSensor(lightning_file_coordinator, description, entry_data)
-        for description in SENSOR_TYPES
-        if description.key in {LIGHTNING_REGION, LIGHTNING_TOWN}
-    )
+    if lightning_file_coordinator:
+        async_add_entities(
+            MeteocatLightningSensor(lightning_file_coordinator, description, entry_data)
+            for description in SENSOR_TYPES
+            if description.key in {LIGHTNING_REGION, LIGHTNING_TOWN}
+        )
 
     # Sensor de estado de archivo de sol
-    async_add_entities(
-        MeteocatSunStatusSensor(sun_coordinator, description, entry_data)
-        for description in SENSOR_TYPES
-        if description.key == SUN_FILE_STATUS
-    )
+    if sun_coordinator:
+        async_add_entities(
+            MeteocatSunStatusSensor(sun_coordinator, description, entry_data)
+            for description in SENSOR_TYPES
+            if description.key == SUN_FILE_STATUS
+        )
 
     # Sensor de posición del sol
-    async_add_entities(
-        MeteocatSunPositionSensor(sun_file_coordinator, description, entry_data)
-        for description in SENSOR_TYPES
-        if description.key == SUN
-    )
+    if sun_file_coordinator:
+        async_add_entities(
+            MeteocatSunPositionSensor(sun_file_coordinator, description, entry_data)
+            for description in SENSOR_TYPES
+            if description.key == SUN
+        )
     
     # Sensores de sol
-    async_add_entities(
-        MeteocatSunSensor(sun_file_coordinator, description, entry_data)
-        for description in SENSOR_TYPES
-        if description.key in {SUNRISE, SUNSET}
-    )
+        async_add_entities(
+            MeteocatSunSensor(sun_file_coordinator, description, entry_data)
+            for description in SENSOR_TYPES
+            if description.key in {SUNRISE, SUNSET}
+        )
 
     # Sensor de fase lunar
-    async_add_entities(
-        MeteocatMoonSensor(moon_file_coordinator, description, entry_data)
-        for description in SENSOR_TYPES
-        if description.key == MOON_PHASE
-    )
-
-    # Sensor de estado de archivo lunar
-    async_add_entities(
-        MeteocatMoonStatusSensor(moon_coordinator, description, entry_data)
-        for description in SENSOR_TYPES
-        if description.key == MOON_FILE_STATUS
-    )
+    if moon_file_coordinator:
+        async_add_entities(
+            MeteocatMoonSensor(moon_file_coordinator, description, entry_data)
+            for description in SENSOR_TYPES
+            if description.key == MOON_PHASE
+        )
 
     # Sensores de salida y puesta de la luna
-    async_add_entities(
-        MeteocatMoonTimeSensor(moon_file_coordinator, description, entry_data)
-        for description in SENSOR_TYPES
-        if description.key in {MOONRISE, MOONSET}
-    )
+        async_add_entities(
+            MeteocatMoonTimeSensor(moon_file_coordinator, description, entry_data)
+            for description in SENSOR_TYPES
+            if description.key in {MOONRISE, MOONSET}
+        )
+
+    # Sensor de estado de archivo lunar
+    if moon_coordinator:
+        async_add_entities(
+            MeteocatMoonStatusSensor(moon_coordinator, description, entry_data)
+            for description in SENSOR_TYPES
+            if description.key == MOON_FILE_STATUS
+        )
 
 # Cambiar UTC a la zona horaria local
 def convert_to_local_time(utc_time: str, local_tz: str = "Europe/Madrid") -> datetime | None:

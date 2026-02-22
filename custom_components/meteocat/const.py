@@ -51,6 +51,7 @@ MOON_FILE_STATUS = "moon_file_status"
 MOONRISE = "moonrise"
 MOONSET = "moonset"
 STATION_DATA_FILE_STATUS = "station_data_file_status"
+CONF_ENABLE_LIGHTNING = "enable_lightning"
 
 from homeassistant.const import Platform
 

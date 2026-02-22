@@ -53,16 +53,19 @@ async def async_setup_entry(hass, entry, async_add_entities: AddEntitiesCallback
     uvi_file_coordinator = entry_data.get("uvi_file_coordinator")
     condition_coordinator = entry_data.get("condition_coordinator")
 
-    async_add_entities([
-        MeteocatWeatherEntity(
-            hourly_forecast_coordinator,
-            daily_forecast_coordinator,
-            sensor_coordinator,
-            uvi_file_coordinator,
-            condition_coordinator,
-            entry_data
-        )
-    ])
+    if all([hourly_forecast_coordinator, daily_forecast_coordinator, sensor_coordinator, uvi_file_coordinator, condition_coordinator]):
+        async_add_entities([
+            MeteocatWeatherEntity(
+                hourly_forecast_coordinator,
+                daily_forecast_coordinator,
+                sensor_coordinator,
+                uvi_file_coordinator,
+                condition_coordinator,
+                entry_data
+            )
+        ])
+    else:
+        _LOGGER.warning("No se pudo cargar la entidad de clima porque faltan coordinadores críticos.")
 
 class MeteocatWeatherEntity(CoordinatorEntity, WeatherEntity):
     """Representation of a Meteocat Weather Entity."""

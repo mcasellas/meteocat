@@ -19,6 +19,7 @@ from .const import (
     LATITUDE,
     LONGITUDE,
     ALTITUDE,
+    CONF_ENABLE_LIGHTNING,
 )
 from .helpers import get_storage_dir
 from meteocatpy.town import MeteocatTown
@@ -91,6 +92,7 @@ class MeteocatOptionsFlowHandler(OptionsFlow):
             self.limit_xdde = user_input.get(LIMIT_XDDE)
             self.limit_quota = user_input.get(LIMIT_QUOTA)
             self.limit_basic = user_input.get(LIMIT_BASIC)
+            self.enable_lightning = user_input.get(CONF_ENABLE_LIGHTNING, True)
 
             # Validar la nueva API Key utilizando MeteocatTown
             if self.api_key:
@@ -130,6 +132,8 @@ class MeteocatOptionsFlowHandler(OptionsFlow):
                     data_update[LIMIT_QUOTA] = self.limit_quota
                 if self.limit_basic:
                     data_update[LIMIT_BASIC] = self.limit_basic
+                if self.enable_lightning is not None:
+                    data_update[CONF_ENABLE_LIGHTNING] = self.enable_lightning
 
                 self.hass.config_entries.async_update_entry(
                     self._config_entry,
@@ -147,6 +151,7 @@ class MeteocatOptionsFlowHandler(OptionsFlow):
             vol.Required(LIMIT_XDDE, default=self._config_entry.data.get(LIMIT_XDDE)): cv.positive_int,
             vol.Required(LIMIT_QUOTA, default=self._config_entry.data.get(LIMIT_QUOTA)): cv.positive_int,
             vol.Required(LIMIT_BASIC, default=self._config_entry.data.get(LIMIT_BASIC)): cv.positive_int,
+            vol.Required(CONF_ENABLE_LIGHTNING, default=self._config_entry.data.get(CONF_ENABLE_LIGHTNING, True)): bool,
         })
         return self.async_show_form(
             step_id="update_api_and_limits", data_schema=schema, errors=errors
@@ -162,6 +167,7 @@ class MeteocatOptionsFlowHandler(OptionsFlow):
             self.limit_xdde = user_input.get(LIMIT_XDDE)
             self.limit_quota = user_input.get(LIMIT_QUOTA)
             self.limit_basic = user_input.get(LIMIT_BASIC)
+            self.enable_lightning = user_input.get(CONF_ENABLE_LIGHTNING, True)
 
             # Validar que los límites sean números positivos
             limits_to_validate = [self.limit_xema, self.limit_prediccio, self.limit_xdde, self.limit_quota, self.limit_basic]
@@ -177,7 +183,8 @@ class MeteocatOptionsFlowHandler(OptionsFlow):
                         LIMIT_PREDICCIO: self.limit_prediccio,
                         LIMIT_XDDE: self.limit_xdde,
                         LIMIT_QUOTA: self.limit_quota,
-                        LIMIT_BASIC: self.limit_basic
+                        LIMIT_BASIC: self.limit_basic,
+                        CONF_ENABLE_LIGHTNING: self.enable_lightning
                     },
                 )
                 # Recargar la integración para aplicar los cambios dinámicamente
@@ -191,6 +198,7 @@ class MeteocatOptionsFlowHandler(OptionsFlow):
             vol.Required(LIMIT_XDDE, default=self._config_entry.data.get(LIMIT_XDDE)): cv.positive_int,
             vol.Required(LIMIT_QUOTA, default=self._config_entry.data.get(LIMIT_QUOTA)): cv.positive_int,
             vol.Required(LIMIT_BASIC, default=self._config_entry.data.get(LIMIT_BASIC)): cv.positive_int,
+            vol.Required(CONF_ENABLE_LIGHTNING, default=self._config_entry.data.get(CONF_ENABLE_LIGHTNING, True)): bool,
         })
         return self.async_show_form(
             step_id="update_limits_only", data_schema=schema, errors=errors

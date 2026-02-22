@@ -53,6 +53,7 @@ from .const import (
     LIMIT_XDDE,
     LIMIT_QUOTA,
     LIMIT_BASIC,
+    CONF_ENABLE_LIGHTNING,
 )
 
 from .options_flow import MeteocatOptionsFlowHandler
@@ -570,6 +571,7 @@ class MeteocatConfigFlow(ConfigFlow, domain=DOMAIN):
             self.limit_xdde = user_input.get(LIMIT_XDDE, 250)
             self.limit_quota = user_input.get(LIMIT_QUOTA, 300)
             self.limit_basic = user_input.get(LIMIT_BASIC, 2000)
+            self.enable_lightning = user_input.get(CONF_ENABLE_LIGHTNING, True)
 
             return self.async_create_entry(
                 title=self.selected_municipi["nom"],
@@ -595,6 +597,7 @@ class MeteocatConfigFlow(ConfigFlow, domain=DOMAIN):
                     LIMIT_XDDE: self.limit_xdde,
                     LIMIT_QUOTA: self.limit_quota,
                     LIMIT_BASIC: self.limit_basic,
+                    CONF_ENABLE_LIGHTNING: self.enable_lightning,
                 },
             )
 
@@ -604,6 +607,7 @@ class MeteocatConfigFlow(ConfigFlow, domain=DOMAIN):
             vol.Required(LIMIT_XDDE, default=250): cv.positive_int,
             vol.Required(LIMIT_QUOTA, default=300): cv.positive_int,
             vol.Required(LIMIT_BASIC, default=2000): cv.positive_int,
+            vol.Required(CONF_ENABLE_LIGHTNING, default=True): bool,
         })
         return self.async_show_form(step_id="set_api_limits", data_schema=schema, errors=errors)
 
