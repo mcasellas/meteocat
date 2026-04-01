@@ -1,3 +1,13 @@
+## [4.1.1](https://github.com/figorr/meteocat/compare/v4.1.0...v4.1.1) (2026-04-01)
+
+
+### Bug Fixes
+
+* bump meteocatpy to v1.0.6 ([54599ac](https://github.com/figorr/meteocat/commit/54599acea6806d39418cd8fa31c71267db2e58e8))
+* fix conditions for status sensors ([6fe1bb5](https://github.com/figorr/meteocat/commit/6fe1bb58dbc192b704a6d0f5f81877312c54dea9))
+* fix forecast and uvi update hours ([f4ef6b5](https://github.com/figorr/meteocat/commit/f4ef6b5ebb113863977de7ae23994217cb05bd28))
+* fix options translations ([c78d464](https://github.com/figorr/meteocat/commit/c78d4640747c79fba5150536e4b622aaf847d89c))
+
 # [4.1.0](https://github.com/figorr/meteocat/compare/v4.0.5...v4.1.0) (2026-02-08)
 
 
