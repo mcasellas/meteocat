@@ -1274,15 +1274,17 @@ class MeteocatHourlyForecastStatusSensor(CoordinatorEntity[MeteocatEntityCoordin
 
         cond1 = days_difference >= min_days
         cond2 = current_time >= min_time
+        cond3 = days_difference >= min_days + 1
 
         _LOGGER.debug(
             "Hourly status → días: %d (≥%d)=%s | hora: %s (≥%s)=%s → %s",
             days_difference, min_days, cond1,
             current_time.strftime("%H:%M"), min_time.strftime("%H:%M"), cond2,
+            min_days + 1, cond3,
             "obsolete" if cond1 and cond2 else "updated"
         )
 
-        if cond1 and cond2:
+        if cond3 or (cond1 and cond2):
             return "obsolete"
         return "updated"
 
@@ -1367,15 +1369,17 @@ class MeteocatDailyForecastStatusSensor(CoordinatorEntity[MeteocatEntityCoordina
 
         cond1 = days_difference >= min_days
         cond2 = current_time >= min_time
+        cond3 = days_difference >= min_days + 1
 
         _LOGGER.debug(
             "Daily status → días: %d (≥%d)=%s | hora: %s (≥%s)=%s → %s",
             days_difference, min_days, cond1,
             current_time.strftime("%H:%M"), min_time.strftime("%H:%M"), cond2,
+            min_days + 1, cond3,
             "obsolete" if cond1 and cond2 else "updated"
         )
 
-        if cond1 and cond2:
+        if cond3 or (cond1 and cond2):
             return "obsolete"
         return "updated"
 
@@ -1470,16 +1474,18 @@ class MeteocatUviStatusSensor(CoordinatorEntity[MeteocatUviCoordinator], SensorE
 
         cond1 = days_difference >= min_days
         cond2 = current_time >= min_time
+        cond3 = days_difference >= min_days + 1
 
         _LOGGER.debug(
             "UVI Status → días: %d (≥%d)=%s | hora: %s (≥%s)=%s → %s",
             days_difference, min_days, cond1,
             current_time.strftime("%H:%M"), min_time.strftime("%H:%M"), cond2,
+            min_days + 1, cond3,
             self._limit_prediccio, quota_level,
-            "obsolete" if cond1 and cond2 else "updated"
+            "obsolete" if cond3 or (cond1 and cond2) else "updated"
         )
 
-        if cond1 and cond2:
+        if cond3 or (cond1 and cond2):
             return "obsolete"
         return "updated"
 

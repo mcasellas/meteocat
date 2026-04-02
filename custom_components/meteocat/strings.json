@@ -39,7 +39,7 @@
   "options": {
     "step": {
       "init": {
-        "description": "Setup the API Key, the API limits, regenerate 'assets' files, or update coordinates.",
+        "description": "Setup the API Key, the API limits, regenerate 'assets' files, update coordinates or force update data.",
         "title": "Setup options",
         "data": {
           "option": "Options"
